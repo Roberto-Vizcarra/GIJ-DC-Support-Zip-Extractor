@@ -1,0 +1,17 @@
+# Dependencies
+node_modules/
+
+# Output reports (generated per-analysis)
+GIJ_BigBrassBand_Error_Analysis.docx
+GIJ_BigBrassBand_Error_Analysis.md
+
+# Support zip data (too large for git)
+support-zips/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+.vscode/
+.idea/

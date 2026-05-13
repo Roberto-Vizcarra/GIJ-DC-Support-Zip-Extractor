@@ -1,0 +1,59 @@
+{
+  "title": "GIJ (BigBrassBand) Error Analysis Report",
+  "supportZipName": "Jira_support_2026-05-12-16-44-22",
+  "logPeriod": "2026-05-12 04:51 to 16:45 (PDT, UTC-0700)",
+  "totalErrors": 28521,
+  "servers": [
+    {
+      "name": "Single Server",
+      "patterns": [
+        {
+          "title": "Error Retrieving Pull/Merge Requests (GitLab GraphQL API)",
+          "occurrences": 28379,
+          "affectedRepos": "397 (all indexed GitLab repositories)",
+          "affectedRepoCount": "397 repositories",
+          "timeRange": "2026-05-12 04:51:41 to 16:45:52 (PDT)",
+          "exception": "WrappedGitlabAPIException: External service error",
+          "rootCause": "GitLab GraphQL API does not recognize fields 'detailedMergeStatus' on type 'MergeRequest' and 'commitEmail' on type 'MergeRequestReviewer'. This indicates a GIJ version / GitLab version mismatch.",
+          "frequency": "Every reindex cycle (~10 minutes), once per repository",
+          "errorMessageTemplate": "Error retrieving pull/merge requests for the repository '<repo_name>' (repoId=<id>)",
+          "stackTrace": "com.bigbrassband.jira.git.exceptions.external.WrappedGitlabAPIException: External service error\n\tat com.bigbrassband.jira.git.services.integration.gitlab.CachedGitLabApi.getMergeRequestsCreatedAt(CachedGitLabApi.java:236)\n\t... (full trace here)"
+        },
+        {
+          "title": "Error Updating Repository (Object Too Large)",
+          "occurrences": 71,
+          "affectedRepos": "data-sage/Midas - New Level Distribution - ML (repoId=93093)",
+          "affectedRepoCount": "1 repository",
+          "timeRange": "2026-05-12 04:58:58 to 16:37:44 (PDT)",
+          "exception": "org.eclipse.jgit.errors.TransportException: Object too large (3,722,977,392 bytes)",
+          "rootCause": "Repository contains a ~3.7 GB object exceeding JGit's ~2.1 GB limit.",
+          "frequency": "Every reindex cycle (~10 minutes)",
+          "errorMessageTemplate": "Error updating the repository 'data-sage/Midas - New Level Distribution - ML' (repoId=93093)",
+          "stackTrace": "org.eclipse.jgit.errors.TransportException: Object too large...\n\t... (full trace here)"
+        },
+        {
+          "title": "Error During .git Clone Attempt",
+          "occurrences": 71,
+          "affectedRepos": "Unidentified (no repo name). Correlated with data-sage/Midas repository based on 1:1 timing match with Pattern 2.",
+          "affectedRepoCount": "1 repository (see notes)",
+          "timeRange": "2026-05-12 05:00:16 to 16:39:04 (PDT)",
+          "exception": "No stack trace — descriptive error only",
+          "rootCause": "Clone attempt fails after fetch error. The 1:1 correlation with Pattern 2 confirms same repository.",
+          "frequency": "Every reindex cycle (~10 minutes), always following Pattern 2",
+          "stackTraceLabel": "Full Error Output (no stack trace):",
+          "stackTrace": "Error during .git clone attempt\n    Possible reasons:\n       - Repository URL is invalid. Check URL.\n       - Your SSH key has permissions to the Git server, but does not have access to the repository.\n       - Connection to Git server timed out.\n       - The repository has been disabled on the Git service side."
+        }
+      ]
+    }
+  ],
+  "notes": [
+    {
+      "label": "Velocity Allowlisting Warnings",
+      "text": "Numerous WARN-level messages matching 'VelocityHelper' and 'Method needs allowlisting' were present. These are Jira debug-mode noise and have been excluded."
+    },
+    {
+      "label": "Pattern 2 & 3 Correlation",
+      "text": "The 'Error updating repository' and 'Error during .git clone attempt' always appear as a pair. Both occur exactly 71 times with matching timing."
+    }
+  ]
+}

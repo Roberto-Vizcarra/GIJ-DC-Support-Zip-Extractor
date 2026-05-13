@@ -1,0 +1,9 @@
+{
+  "name": "gij-report-generator",
+  "version": "1.0.0",
+  "description": "Generates GIJ BigBrassBand error analysis reports in .docx and .md formats",
+  "main": "generate_report.js",
+  "dependencies": {
+    "docx": "^9.0.0"
+  }
+}
